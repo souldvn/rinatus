@@ -292,6 +292,12 @@ a:hover {
 .case-figure:last-child {
   margin-bottom: 0;
 }
+.case-figure-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: calc(100% * 48 / 1904);
+  align-items: start;
+}
 .image-button {
   display: block;
   border: 0;

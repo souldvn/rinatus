@@ -1,8 +1,11 @@
+import type { ImageCrop } from "./images";
+
 export type Block = {
   text?: string;
   heading?: string;
   image?: string;
   alt?: string;
+  images?: { image: string; alt: string; crop: ImageCrop }[];
   list?: string[];
   numbered?: string[];
   compare?: [string[], string[]];
@@ -335,10 +338,20 @@ export const cases: Record<string, Case> = {
           "Принимают корректирующие меры",
           "На основе выявленных причин корректируют производственные процессы и определяют дальнейшие действия.",
         ),
-        img(
-          "bi-causes.webp",
-          "Причины отклонений и корректирующие мероприятия",
-        ),
+        {
+          images: [
+            {
+              image: "bi-causes.webp",
+              alt: "Причины отклонений",
+              crop: [0, 0, 928, 348],
+            },
+            {
+              image: "bi-causes.webp",
+              alt: "Корректирующие мероприятия",
+              crop: [976, 0, 1904, 848],
+            },
+          ],
+        },
       ]),
       sec("ui-kit", "UI KIT", [
         p(

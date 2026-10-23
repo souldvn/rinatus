@@ -23,10 +23,11 @@ import { cases, projects } from "./content";
 import type { Block, Case } from "./content";
 import type { CSSProperties, HTMLAttributes } from "react";
 import { imageGeometry } from "./images";
+import type { ImageCrop } from "./images";
 import { activeSection, sectionStops } from "./navigation";
 import "./styles.css";
 
-type Picture = { src: string; alt: string };
+type Picture = { src: string; alt: string; crop?: ImageCrop };
 const asset = (name: string) => `/assets/${name}`;
 function ProjectArrow() {
   return (
@@ -338,24 +339,33 @@ function ContentBlock({
   block: Block;
   openImage: (picture: Picture) => void;
 }) {
-  if (block.image) {
+  const pictures: Picture[] = block.images
+    ? block.images.map(({ image, alt, crop }) => ({
+        src: asset(image),
+        alt,
+        crop,
+      }))
+    : block.image
+      ? [{ src: asset(block.image), alt: block.alt! }]
+      : [];
+  if (pictures.length) {
     return (
-      <figure className="case-figure">
-        <button
-          className="image-button"
-          onClick={() =>
-            openImage({ src: asset(block.image!), alt: block.alt! })
-          }
-          aria-label={`Увеличить: ${block.alt}`}
-        >
-          <PictureSurface
-            picture={{ src: asset(block.image), alt: block.alt! }}
-            lazy
-          />
-          <span className="image-expand">
-            <Maximize2 size={18} />
-          </span>
-        </button>
+      <figure
+        className={`case-figure${block.images ? " case-figure-pair" : ""}`}
+      >
+        {pictures.map((picture) => (
+          <button
+            key={picture.alt}
+            className="image-button"
+            onClick={() => openImage(picture)}
+            aria-label={`Увеличить: ${picture.alt}`}
+          >
+            <PictureSurface picture={picture} lazy />
+            <span className="image-expand">
+              <Maximize2 size={18} />
+            </span>
+          </button>
+        ))}
       </figure>
     );
   }
@@ -402,7 +412,7 @@ function PictureSurface({
   style,
   ...props
 }: { picture: Picture; lazy?: boolean } & HTMLAttributes<HTMLSpanElement>) {
-  const g = imageGeometry(picture.src);
+  const g = imageGeometry(picture.src, picture.crop);
   return (
     <span
       {...props}

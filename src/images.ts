@@ -1,5 +1,7 @@
 import dimensions from "./dimensions.json";
 
+export type ImageCrop = [number, number, number, number];
+
 // Visible bounds of the artwork inside the exported PDF images.
 // Clip the export background in CSS; retain the original image files.
 const bounds: Record<string, [number, number, number, number]> = {
@@ -12,10 +14,11 @@ const bounds: Record<string, [number, number, number, number]> = {
   "cover-bi.webp": [48, 264, 1288, 1376],
 };
 
-export function imageGeometry(src: string) {
+export function imageGeometry(src: string, crop?: ImageCrop) {
   const name = src.split("/").at(-1)!;
   const [width, height] = (dimensions as Record<string, number[]>)[name];
-  const [left, top, right, bottom] = bounds[name] ?? [0, 0, width, height];
+  const [left, top, right, bottom] = crop ??
+    bounds[name] ?? [0, 0, width, height];
   return {
     width,
     height,
