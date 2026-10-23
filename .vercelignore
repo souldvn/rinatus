@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.npm-cache/
+tmp/
+artifacts/
+.git/
+tests/
+*.tsbuildinfo
+.env*
