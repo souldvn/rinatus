@@ -65,9 +65,9 @@ function SocialLinks() {
       >
         LinkedIn
       </a>
-      <span aria-disabled="true" title="Резюме скоро появится">
+      <a href="/cv_musin.rinat.pdf" target="_blank" rel="noopener noreferrer">
         CV
-      </span>
+      </a>
       <a href="https://t.me/a1pha9" target="_blank" rel="noopener noreferrer">
         Telegram
       </a>

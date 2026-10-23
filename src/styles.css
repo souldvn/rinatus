@@ -1017,10 +1017,10 @@ a:hover {
 /* Shared column starts: navigation/context, section/task, body/terms. */
 @media (min-width: 901px) {
   .case-intro {
-    width: 50%;
+    width: 100%;
     max-width: none;
     gap: 0;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 2fr;
   }
   .case-intro.with-terms {
     width: 100%;
