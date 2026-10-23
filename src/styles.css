@@ -132,6 +132,67 @@ a:hover {
   font-size: 16px;
   letter-spacing: -0.025em;
 }
+.cv-page {
+  min-height: 100dvh;
+  background: #f1f2f5;
+}
+.cv-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px var(--gutter);
+  border-bottom: 1px solid var(--line);
+}
+.cv-header h1 {
+  font-size: 26px;
+}
+.cv-header .back {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.cv-header > a {
+  white-space: nowrap;
+}
+.cv-document {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 24px 12px;
+}
+.cv-sheet {
+  position: relative;
+  margin-bottom: 24px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.cv-sheet:last-child {
+  margin-bottom: 0;
+}
+.cv-sheet img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.cv-document-link {
+  position: absolute;
+}
+.cv-document-link:hover {
+  background: #1766e81a;
+}
+.cv-accessible-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: pre-wrap;
+}
 
 .project-header h1 {
   font-size: clamp(30px, 2.8vw, 64px);

@@ -8,6 +8,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
   useParams,
 } from "react-router-dom";
 import {
@@ -20,6 +21,7 @@ import {
   X,
 } from "lucide-react";
 import { cases, projects } from "./content";
+import cvPages from "./cv-pages.json";
 import type { Block, Case } from "./content";
 import type { CSSProperties, HTMLAttributes } from "react";
 import { imageGeometry } from "./images";
@@ -65,9 +67,9 @@ function SocialLinks() {
       >
         LinkedIn
       </a>
-      <a href="/cv_musin.rinat.pdf" target="_blank" rel="noopener noreferrer">
+      <Link to="/cv" state={{ fromPortfolio: true }}>
         CV
-      </a>
+      </Link>
       <a href="https://t.me/a1pha9" target="_blank" rel="noopener noreferrer">
         Telegram
       </a>
@@ -615,6 +617,63 @@ function Lightbox({
     </dialog>
   );
 }
+function CvPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  return (
+    <main id="main" className="cv-page">
+      <header className="cv-header">
+        <button
+          className="back"
+          onClick={() =>
+            location.state?.fromPortfolio
+              ? navigate(-1)
+              : navigate("/", { replace: true })
+          }
+        >
+          <ArrowLeft size={24} />
+          Назад
+        </button>
+        <h1>CV</h1>
+        <a href="/cv_musin.rinat.pdf" download>
+          Скачать PDF
+        </a>
+      </header>
+      <article className="cv-document" aria-label="Резюме Мусина Рината">
+        {cvPages.map((page, index) => (
+          <section
+            className="cv-sheet"
+            key={page.src}
+            aria-label={`Страница ${index + 1}`}
+          >
+            <img
+              src={page.src}
+              width={page.width}
+              height={page.height}
+              alt=""
+              loading={index ? "lazy" : "eager"}
+            />
+            <p className="cv-accessible-text">{page.text}</p>
+            {page.links.map((link, linkIndex) => (
+              <a
+                key={linkIndex}
+                href={link.href}
+                aria-label={link.label}
+                className="cv-document-link"
+                style={{
+                  left: `${link.left}%`,
+                  top: `${link.top}%`,
+                  width: `${link.width}%`,
+                  height: `${link.height}%`,
+                }}
+              />
+            ))}
+          </section>
+        ))}
+      </article>
+    </main>
+  );
+}
 function NotFound() {
   return (
     <main id="main" className="page not-found">
@@ -644,7 +703,9 @@ function App() {
       ? `${parts[3] ? `Кейс ${parts[4]} · ` : ""}${project.title} — Мусин Ринат`
       : pathname === "/projects"
         ? "Проекты — Мусин Ринат"
-        : "Мусин Ринат — Product designer";
+        : pathname === "/cv"
+          ? "CV — Мусин Ринат"
+          : "Мусин Ринат — Product designer";
   }, [pathname]);
   return (
     <>
@@ -654,6 +715,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/cv" element={<CvPage />} />
         <Route
           path="/projects/:projectId"
           element={<Project openImage={setPicture} />}
